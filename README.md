@@ -7,7 +7,7 @@ This repository contains two Java projects developed for the CSCI 5408 course: D
 - Created a lightweight multi-user database system using Java.
 - Features multi-user authentication, Query Processor, and Single Transaction Management.
 
-# Project 2: NoSQL Data Extraction and Processing
+## Project 2: NoSQL Data Extraction and Processing
 
 This project involves solving 3 problems related to data extraction and processing. It includes algorithms for cleaning news heading data and performing sentiment analysis using a Bag of Words (BoW) model. The cleaned data is pushed to a MongoDB cloud cluster by Atlas.
 
