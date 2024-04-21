@@ -1,6 +1,3 @@
-# B00955671_SumitSavaliya_A1
-
-
 
 ## Getting started
 
