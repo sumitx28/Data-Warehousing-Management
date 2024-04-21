@@ -1,89 +1,86 @@
+ Data Warehousing Management
 
-## Getting started
+This repository contains two Java projects developed for the CSCI 5408 course: Data Management and Warehousing Analytics Projects.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Project 1: MySQL-Java
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- Created a lightweight multi-user database system using Java.
+- Features multi-user authentication, Query Processor, and Single Transaction Management.
 
-## Add your files
+# Project 2: NoSQL Data Extraction and Processing
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+This project involves solving 3 problems related to data extraction and processing. It includes algorithms for cleaning news heading data and performing sentiment analysis using a Bag of Words (BoW) model. The cleaned data is pushed to a MongoDB cloud cluster by Atlas.
 
-```
-cd existing_repo
-git remote add origin https://git.cs.dal.ca/ssavaliya/b00955671_sumitsavaliya_a1.git
-git branch -M main
-git push -uf origin main
-```
+## Algorithm
 
-## Integrate with your tools
+### Read and Parse XML File
 
-- [ ] [Set up project integrations](https://git.cs.dal.ca/ssavaliya/b00955671_sumitsavaliya_a1/-/settings/integrations)
+- The function starts by taking the fileName and MongoCollection<Document> as parameters.
+- It creates a File object using the provided file name and gets its absolute path.
+- It uses the Jsoup library to parse the XML file using the XML parser. The result is stored in a org.jsoup.nodes.Document object named document.
 
-## Collaborate with your team
+### Initialize List for MongoDB Documents
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+- It initializes an empty List<Document> named newsDocuments to store the MongoDB documents that will be created from the XML file.
 
-## Test and Deploy
+### Iterate Over "REUTERS" Elements
 
-Use the built-in continuous integration in GitLab.
+- The function iterates over each "REUTERS" element in the parsed XML document.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Extract Title and Body
 
-***
+- For each "REUTERS" element, it extracts the text content of the "TEXT > TITLE" and "TEXT > BODY" elements.
+- The extracted text is passed through the cleanText method, which removes non-alphanumeric characters.
 
-# Editing this README
+### Problem 1B: News Data Processing using Spark
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Steps followed: UniqueWordCount.py file can be found in the repository inside the Problem1B folder.
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+### Problem 2: Sentiment Analysis using BoW Model
 
-## Name
-Choose a self-explaining name for your project.
+- Successfully implemented the task using files of Positive and Negative words from the same author. This algorithm performs sentiment analysis on news titles stored in a MongoDB collection. The sentiment analysis involves scoring each news title based on the presence of positive and negative words. The results are then inserted into a MySQL table for further analysis.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+#### Algorithm
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+1. **Connect to MongoDB:**
+   - Established a connection to MongoDB using the provided connection string, database name, and collection name.
+   - Fetched the desired collection (newsCollection) from the MongoDB database.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+2. **Retrieve News Titles:**
+   - Query the MongoDB collection to retrieve the news titles.
+   - Stored the news titles in a list (newsTitles).
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+3. **Read Positive and Negative Words:**
+   - Read positive and negative words from files (positive-words.txt and negative-words.txt).
+   - Stored positive and negative words in separate lists (positiveWords and negativeWords).
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+4. **Sentiment Analysis Loop:**
+   - Iterated over each news title in the newsTitles list.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+5. **Build Bag of Words (BoW):**
+   - Built a Bag of Words (BoW) for each news title.
+   - Used a map (bow) to store word frequencies in the news title.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+6. **Score Calculation:**
+   - Compared each word in the BoW to positive and negative words.
+   - Calculated a sentiment score based on the frequency of positive and negative words.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+7. **Determine Polarity:**
+   - Determined the polarity of the news title based on the calculated score.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+8. **Store Results:**
+   - Stored the news title, matched words, sentiment score, and polarity in a map (result).
+   - Added each result map to a list (results).
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+9. **Insert into MySQL Table:**
+   - Established a connection to a MySQL database using the JDBC URL, username, and password.
+   - Inserted each result into a table named NewsAnalysis with columns: NewsTitle, MatchedWords, Score, and Polarity.
+   - Used a prepared statement to efficiently insert multiple records.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+10. **Close Connections:**
+    - Closed the MongoDB connection after processing all news titles.
+    - Closed the MySQL connection after inserting all results into the table.
+   
+## Author
 
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- Sumit Savaliya (sumit.savaliya@dal.ca)
