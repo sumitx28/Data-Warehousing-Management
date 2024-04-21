@@ -1,4 +1,4 @@
- Data Warehousing Management
+# Data Warehousing Management
 
 This repository contains two Java projects developed for the CSCI 5408 course: Data Management and Warehousing Analytics Projects.
 
